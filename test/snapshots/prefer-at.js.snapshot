@@ -104,6 +104,23 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(1): items[items.length - 1]; 1`] = `
+
+  1 | items[items.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(1): items[items.length - 1]; 2`] = `
+
+Message:
+> 1 | items[items.length - 1];
+    |       ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | items.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(1): string.charAt(string.length - 1); 1`] = `
 
   1 | string.charAt(string.length - 1);
@@ -255,6 +272,25 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(10): declare const tuple: [number, number]; tuple[tuple.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const tuple: [number, number]; tuple[tuple.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(10): declare const tuple: [number, number]; tuple[tuple.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const tuple: [number, number]; tuple[tuple.length - 1];
+    |                                              ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const tuple: [number, number]; tuple.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(10): string.substring(index, index + /* comment */ 1) 1`] = `
 
   1 | string.substring(index, index + /* comment */ 1)
@@ -317,6 +353,25 @@ Message:
 
 Output:
   1 | array.at((( -1 )));
+
+`;
+
+exports[`prefer-at > invalid(11): declare const bytes: Uint8Array; bytes[bytes.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const bytes: Uint8Array; bytes[bytes.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(11): declare const bytes: Uint8Array; bytes[bytes.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const bytes: Uint8Array; bytes[bytes.length - 1];
+    |                                        ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const bytes: Uint8Array; bytes.at(-1);
 
 `;
 
@@ -403,6 +458,25 @@ Message:
 
 Suggestion 1/1: Use \`.at(…)\`.:
   1 | <string>string.at(- 1);
+
+`;
+
+exports[`prefer-at > invalid(12): declare const string: string; string[string.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const string: string; string[string.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(12): declare const string: string; string[string.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const string: string; string[string.length - 1];
+    |                                      ^^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const string: string; string.at(-1);
 
 `;
 
@@ -499,6 +573,25 @@ Suggestion 1/1: Use \`.at(…)\`.:
 
 `;
 
+exports[`prefer-at > invalid(13): declare const array: number[] | undefined; array?.[array.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const array: number[] | undefined; array?.[array.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(13): declare const array: number[] | undefined; array?.[array.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const array: number[] | undefined; array?.[array.length - 1];
+    |                                                    ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const array: number[] | undefined; array?.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(13): string!.charAt(string!.length - 1); 1`] = `
 
   1 | string!.charAt(string!.length - 1);
@@ -584,6 +677,25 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(14): declare const value: any; value[value.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const value: any; value[value.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(14): declare const value: any; value[value.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const value: any; value[value.length - 1];
+    |                                 ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const value: any; value.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(14): string.charAt(string /* keep */ .length - 1); 1`] = `
 
   1 | string.charAt(string /* keep */ .length - 1);
@@ -650,6 +762,25 @@ Message:
 
 Output:
   1 | a = array.at(-1)
+
+`;
+
+exports[`prefer-at > invalid(15): declare const items: number[] | NodeList; items[items.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const items: number[] | NodeList; items[items.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(15): declare const items: number[] | NodeList; items[items.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const items: number[] | NodeList; items[items.length - 1];
+    |                                                 ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const items: number[] | NodeList; items.at(-1);
 
 `;
 
@@ -725,6 +856,25 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(16): declare const array: number[]; _.last(array); 1`] = `
+
+Filename: file.ts
+
+  1 | declare const array: number[]; _.last(array);
+
+`;
+
+exports[`prefer-at > invalid(16): declare const array: number[]; _.last(array); 2`] = `
+
+Message:
+> 1 | declare const array: number[]; _.last(array);
+    |                                ^^^^^^ Prefer \`.at(-1)\` over \`_.last(…)\` to get the last element.
+
+Output:
+  1 | declare const array: number[]; array.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(16): string.charAt(1n) 1`] = `
 
 Options:
@@ -794,6 +944,25 @@ Message:
 
 Output:
   1 | const {a = array.at(-1)} = {}
+
+`;
+
+exports[`prefer-at > invalid(17): declare const array: number[]; array.slice(-1)[0]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const array: number[]; array.slice(-1)[0];
+
+`;
+
+exports[`prefer-at > invalid(17): declare const array: number[]; array.slice(-1)[0]; 2`] = `
+
+Message:
+> 1 | declare const array: number[]; array.slice(-1)[0];
+    |                                      ^^^^^ Prefer \`.at(…)\` over the first element from \`.slice(…)\`.
+
+Output:
+  1 | declare const array: number[]; array.at(-1);
 
 `;
 
@@ -1047,6 +1216,23 @@ Suggestion 1/1: Use \`.at(…)\`.:
 
 `;
 
+exports[`prefer-at > invalid(2): this.items[this.items.length - 1]; 1`] = `
+
+  1 | this.items[this.items.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(2): this.items[this.items.length - 1]; 2`] = `
+
+Message:
+> 1 | this.items[this.items.length - 1];
+    |            ^^^^^^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | this.items.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(20): array!.slice(-1)[0] 1`] = `
 
   1 | array!.slice(-1)[0]
@@ -1272,6 +1458,23 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(3): let items = document.querySelectorAll('li'); items[items.length - 1]; 1`] = `
+
+  1 | let items = document.querySelectorAll('li'); items[items.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(3): let items = document.querySelectorAll('li'); items[items.length - 1]; 2`] = `
+
+Message:
+> 1 | let items = document.querySelectorAll('li'); items[items.length - 1];
+    |                                                    ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | let items = document.querySelectorAll('li'); items.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(3): string.charAt(string.length - 0o11); 1`] = `
 
   1 | string.charAt(string.length - 0o11);
@@ -1388,6 +1591,23 @@ Message:
 
 Output:
   1 | array.at(- /* comment */ 1);
+
+`;
+
+exports[`prefer-at > invalid(4): const items = [...document.querySelectorAll('li')]; items[items.length - 1]; 1`] = `
+
+  1 | const items = [...document.querySelectorAll('li')]; items[items.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(4): const items = [...document.querySelectorAll('li')]; items[items.length - 1]; 2`] = `
+
+Message:
+> 1 | const items = [...document.querySelectorAll('li')]; items[items.length - 1];
+    |                                                           ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | const items = [...document.querySelectorAll('li')]; items.at(-1);
 
 `;
 
@@ -1511,6 +1731,23 @@ Message:
 
 Output:
   1 | array.at(- 1.);
+
+`;
+
+exports[`prefer-at > invalid(5): const items = Array.from(document.querySelectorAll('li')); items[items.length - 1]; 1`] = `
+
+  1 | const items = Array.from(document.querySelectorAll('li')); items[items.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(5): const items = Array.from(document.querySelectorAll('li')); items[items.length - 1]; 2`] = `
+
+Message:
+> 1 | const items = Array.from(document.querySelectorAll('li')); items[items.length - 1];
+    |                                                                  ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | const items = Array.from(document.querySelectorAll('li')); items.at(-1);
 
 `;
 
@@ -1661,6 +1898,23 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(6): const items = [...document.querySelectorAll('li')]; _.last(items); 1`] = `
+
+  1 | const items = [...document.querySelectorAll('li')]; _.last(items);
+
+`;
+
+exports[`prefer-at > invalid(6): const items = [...document.querySelectorAll('li')]; _.last(items); 2`] = `
+
+Message:
+> 1 | const items = [...document.querySelectorAll('li')]; _.last(items);
+    |                                                     ^^^^^^ Prefer \`.at(-1)\` over \`_.last(…)\` to get the last element.
+
+Output:
+  1 | const items = [...document.querySelectorAll('li')]; items.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(6): string.charAt(string.length - (( 1 ))); 1`] = `
 
   1 | string.charAt(string.length - (( 1 )));
@@ -1767,6 +2021,23 @@ Message:
 Output:
   1 | const foo = []
   2 | ;(new Array).at(-1)
+
+`;
+
+exports[`prefer-at > invalid(7): const items = [...document.querySelectorAll('li')]; items.slice(-1)[0]; 1`] = `
+
+  1 | const items = [...document.querySelectorAll('li')]; items.slice(-1)[0];
+
+`;
+
+exports[`prefer-at > invalid(7): const items = [...document.querySelectorAll('li')]; items.slice(-1)[0]; 2`] = `
+
+Message:
+> 1 | const items = [...document.querySelectorAll('li')]; items.slice(-1)[0];
+    |                                                           ^^^^^ Prefer \`.at(…)\` over the first element from \`.slice(…)\`.
+
+Output:
+  1 | const items = [...document.querySelectorAll('li')]; items.at(-1);
 
 `;
 
@@ -1896,6 +2167,25 @@ Output:
 
 `;
 
+exports[`prefer-at > invalid(8): declare const array: number[]; array[array.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const array: number[]; array[array.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(8): declare const array: number[]; array[array.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const array: number[]; array[array.length - 1];
+    |                                      ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const array: number[]; array.at(-1);
+
+`;
+
 exports[`prefer-at > invalid(8): string.substring(1 + index, index) 1`] = `
 
   1 | string.substring(1 + index, index)
@@ -1961,6 +2251,25 @@ Message:
 
 Output:
   1 | array.at(-1);
+
+`;
+
+exports[`prefer-at > invalid(9): declare const array: readonly number[]; array[array.length - 1]; 1`] = `
+
+Filename: file.ts
+
+  1 | declare const array: readonly number[]; array[array.length - 1];
+
+`;
+
+exports[`prefer-at > invalid(9): declare const array: readonly number[]; array[array.length - 1]; 2`] = `
+
+Message:
+> 1 | declare const array: readonly number[]; array[array.length - 1];
+    |                                               ^^^^^^^^^^^^^^^^ Prefer \`.at(…)\` over \`[….length - index]\`.
+
+Output:
+  1 | declare const array: readonly number[]; array.at(-1);
 
 `;
 

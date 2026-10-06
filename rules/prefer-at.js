@@ -13,6 +13,8 @@ import {
 	getStaticValueIfNoSideEffects,
 	hasCommentInRange,
 	unwrapTypeScriptExpression as unwrapExpression,
+	isKnownNonIndexedCollection,
+	isKnownNonString,
 } from './utils/index.js';
 import {
 	getNegativeIndexLengthNode,
@@ -49,6 +51,23 @@ const messages = {
 
 const isArguments = node => node.type === 'Identifier' && node.name === 'arguments';
 
+const domCollectionProperties = [
+	'childNodes',
+	'children',
+];
+
+const domCollectionMethods = [
+	'getElementsByClassName',
+	'getElementsByName',
+	'getElementsByTagName',
+	'getElementsByTagNameNS',
+	'querySelectorAll',
+];
+
+const isDomCollectionExpression = node =>
+	isMemberExpression(node, {properties: domCollectionProperties})
+	|| isMethodCall(node, {methods: domCollectionMethods});
+
 const isUnsupportedAtReceiverExpression = node => {
 	node = unwrapExpression(node);
 
@@ -56,7 +75,8 @@ const isUnsupportedAtReceiverExpression = node => {
 		|| (node.type === 'Literal' && !isStringLiteral(node))
 		|| node.type === 'ArrowFunctionExpression'
 		|| node.type === 'FunctionExpression'
-		|| node.type === 'ClassExpression';
+		|| node.type === 'ClassExpression'
+		|| isDomCollectionExpression(node);
 };
 
 const isObviouslyNonArrayReceiver = (node, context) => {
@@ -156,26 +176,16 @@ const lodashLastFunctions = [
 	'underscore.last',
 ];
 
-// TODO: Remove this once DOM collections like NodeList and HTMLCollection reliably support `.at()` in browsers.
-const domCollectionProperties = [
-	'childNodes',
-	'children',
-];
+const hasTypeInformation = context => Boolean(context.sourceCode.parserServices?.program);
 
-const domCollectionMethods = [
-	'getElementsByClassName',
-	'getElementsByName',
-	'getElementsByTagName',
-	'getElementsByTagNameNS',
-	'querySelectorAll',
-];
-
-const isDomCollectionReceiver = node => {
-	node = unwrapExpression(node);
-
-	return isMemberExpression(node, {properties: domCollectionProperties})
-		|| isMethodCall(node, {methods: domCollectionMethods});
-};
+// `.at()` only exists on arrays, typed arrays, and strings. Without type information, the array and string checks can only prove a non-match from annotations, so they are skipped to keep `checkAllIndexAccess` fast.
+const isKnownReceiverWithoutAt = (node, context) =>
+	isObviouslyNonArrayReceiver(node, context)
+	|| (
+		hasTypeInformation(context)
+		&& isKnownNonIndexedCollection(node, context)
+		&& isKnownNonString(node, context)
+	);
 
 /**
 @param {import('eslint').Rule.RuleContext} context
@@ -193,7 +203,6 @@ function create(context) {
 		if (
 			!node.computed
 			|| isLeftHandSide(node)
-			|| isDomCollectionReceiver(node.object)
 		) {
 			return;
 		}
@@ -212,13 +221,12 @@ function create(context) {
 				!staticValue
 				|| !Number.isSafeInteger(staticValue.value)
 				|| staticValue.value < 0
-				|| isObviouslyNonArrayReceiver(node.object, context)
 			) {
 				return;
 			}
 		}
 
-		if (isArguments(node.object)) {
+		if (isArguments(node.object) || isKnownReceiverWithoutAt(node.object, context)) {
 			return;
 		}
 
@@ -360,7 +368,7 @@ function create(context) {
 		}
 
 		const firstElementGetMethod = getSliceCallResult(sliceCall);
-		if (!firstElementGetMethod) {
+		if (!firstElementGetMethod || isKnownReceiverWithoutAt(sliceCall.callee.object, context)) {
 			return;
 		}
 
@@ -418,7 +426,7 @@ function create(context) {
 
 		const [array] = node.arguments;
 
-		if (isArguments(array)) {
+		if (isArguments(array) || isKnownReceiverWithoutAt(array, context)) {
 			return;
 		}
 

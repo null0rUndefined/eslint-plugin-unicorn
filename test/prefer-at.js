@@ -170,6 +170,53 @@ test.snapshot({
 	],
 });
 
+// Receivers that are known not to be arrays, typed arrays, or strings
+test.snapshot({
+	valid: [
+		'const tabsList = scrollContainer.querySelectorAll(\'li\'); const lastTab = tabsList[tabsList.length - 1];',
+		'const nodes = parent.childNodes; nodes[nodes.length - 1];',
+		'const items = (( document.getElementsByTagName(\'li\') )); items[items.length - 1];',
+		'const items = document.querySelectorAll(\'li\'); items.slice(-1)[0];',
+		'const items = document.querySelectorAll(\'li\'); _.last(items);',
+		'_.last(document.querySelectorAll(\'li\'))',
+		'_.last(element.children)',
+		'const object = {length: 1}; object[object.length - 1];',
+		typeAware('const map = new Map<number, string>(); map[map.length - 1];'),
+		typeAware('declare const items: NodeListOf<Element>; items[items.length - 1];'),
+		typeAware('function foo(items: HTMLCollection) { return items[items.length - 1]; }'),
+		{
+			code: 'const items = document.querySelectorAll(\'li\') as NodeListOf<HTMLLIElement>; items[items.length - 1];',
+			languageOptions: {parser: parsers.typescript},
+		},
+		typeAware('declare const files: FileList; files[files.length - 1];'),
+		typeAware('declare const tokens: DOMTokenList; tokens[tokens.length - 1];'),
+		typeAware('declare function getItems(): NodeListOf<Element>; const items = getItems(); items[items.length - 1];'),
+		typeAware('declare const record: Record<number, string> & {length: number}; record[record.length - 1];'),
+		typeAware('class List { [index: number]: string; length = 0; at() {} } declare const list: List; list[list.length - 1];'),
+		typeAware('declare const files: FileList; files.slice(-1)[0];'),
+		typeAware('declare const files: FileList; _.last(files);'),
+	],
+	invalid: [
+		'items[items.length - 1];',
+		'this.items[this.items.length - 1];',
+		'let items = document.querySelectorAll(\'li\'); items[items.length - 1];',
+		'const items = [...document.querySelectorAll(\'li\')]; items[items.length - 1];',
+		'const items = Array.from(document.querySelectorAll(\'li\')); items[items.length - 1];',
+		'const items = [...document.querySelectorAll(\'li\')]; _.last(items);',
+		'const items = [...document.querySelectorAll(\'li\')]; items.slice(-1)[0];',
+		typeAware('declare const array: number[]; array[array.length - 1];'),
+		typeAware('declare const array: readonly number[]; array[array.length - 1];'),
+		typeAware('declare const tuple: [number, number]; tuple[tuple.length - 1];'),
+		typeAware('declare const bytes: Uint8Array; bytes[bytes.length - 1];'),
+		typeAware('declare const string: string; string[string.length - 1];'),
+		typeAware('declare const array: number[] | undefined; array?.[array.length - 1];'),
+		typeAware('declare const value: any; value[value.length - 1];'),
+		typeAware('declare const items: number[] | NodeList; items[items.length - 1];'),
+		typeAware('declare const array: number[]; _.last(array);'),
+		typeAware('declare const array: number[]; array.slice(-1)[0];'),
+	],
+});
+
 // `String#charAt`
 test.snapshot({
 	valid: [
@@ -404,6 +451,9 @@ const setCheckAllIndexAccessTrue = cases => cases.map(testCase => {
 });
 test.snapshot({
 	valid: setCheckAllIndexAccessTrue([
+		'const items = document.querySelectorAll(\'li\'); items[0]',
+		typeAware('const map = new Map<number, string>(); map[0];'),
+		typeAware('declare const files: FileList; files[0];'),
 		'const object = {value: true}; Object.defineProperty(object, \'value\', {get() { return false; }}); array[object.value ? 1 : index];',
 		'++array[1]',
 		'const offset = 5;const extraArgument = 6;string.charAt(offset + 9, extraArgument)',
